@@ -1,0 +1,36 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="admin-panel">
+  <h4 style="margin-bottom:14px;">نوشتن مقاله جدید</h4>
+  <form method="post" action="/admin/blog/add">
+    <div class="form-group"><label>عنوان</label><input type="text" name="title" required></div>
+    <div class="form-group"><label>خلاصه (اختیاری)</label><input type="text" name="excerpt"></div>
+    <div class="form-group"><label>متن مقاله</label><textarea name="content" style="min-height:200px;" required></textarea></div>
+    <div class="form-group"><label>توضیح متا (سئو)</label><input type="text" name="meta_description"></div>
+    <div class="form-group"><label>کلمات کلیدی (با کاما جدا کنید)</label><input type="text" name="keywords"></div>
+    <button class="btn btn-brass" type="submit">انتشار مقاله</button>
+  </form>
+</div>
+<div class="admin-panel">
+  <table>
+    <tr><th>عنوان</th><th>وضعیت</th><th>تاریخ</th><th>عملیات</th></tr>
+    {% for p in posts %}
+    <tr>
+      <td><a href="/blog/{{ p.slug }}" target="_blank">{{ p.title }}</a></td>
+      <td><span class="badge {{ 'badge-on' if p.is_published else 'badge-off' }}">{{ 'منتشرشده' if p.is_published else 'پیش‌نویس' }}</span></td>
+      <td class="mono">{{ p.created_at.strftime('%Y/%m/%d') }}</td>
+      <td>
+        <form class="inline-form" method="post" action="/admin/blog/{{ p.id }}/toggle">
+          <button class="btn btn-ghost btn-sm" type="submit">{{ 'پنهان‌سازی' if p.is_published else 'انتشار' }}</button>
+        </form>
+        <form class="inline-form" method="post" action="/admin/blog/{{ p.id }}/delete" onsubmit="return confirm('حذف شود؟');">
+          <button class="btn btn-ghost btn-sm" type="submit">حذف</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">مقاله‌ای ثبت نشده است.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

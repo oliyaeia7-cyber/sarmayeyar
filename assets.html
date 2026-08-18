@@ -1,0 +1,38 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="admin-panel">
+  <h4 style="margin-bottom:14px;">افزودن دارایی جدید</h4>
+  <form method="post" action="/admin/assets/add" style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;">
+    <div class="form-group" style="margin:0;"><label>نماد (مثلاً BTC-USD)</label><input type="text" name="symbol" required></div>
+    <div class="form-group" style="margin:0;"><label>نام فارسی</label><input type="text" name="display_name_fa" required></div>
+    <div class="form-group" style="margin:0;"><label>دسته</label>
+      <select name="category">
+        <option value="crypto">ارز دیجیتال</option>
+        <option value="stock">سهام</option>
+        <option value="forex">فارکس</option>
+        <option value="gold">طلا</option>
+      </select>
+    </div>
+    <button class="btn btn-brass" type="submit">افزودن</button>
+  </form>
+</div>
+<div class="admin-panel">
+  <table>
+    <tr><th>نماد</th><th>نام فارسی</th><th>دسته</th><th>عملیات</th></tr>
+    {% for a in assets %}
+    <tr>
+      <td class="mono">{{ a.symbol }}</td>
+      <td>{{ a.display_name_fa }}</td>
+      <td>{{ a.category }}</td>
+      <td>
+        <form class="inline-form" method="post" action="/admin/assets/{{ a.id }}/delete" onsubmit="return confirm('حذف شود؟');">
+          <button class="btn btn-ghost btn-sm" type="submit">حذف</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">دارایی‌ای ثبت نشده است.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

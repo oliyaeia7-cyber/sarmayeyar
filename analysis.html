@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section" style="padding-top:50px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">تحلیل دارایی</span>
+      <h2>نماد موردنظر خود را تحلیل کنید</h2>
+      <p>نتیجه شامل امتیاز نهایی، سناریوهای احتمالاتی، شاخص‌های تکنیکال و اخبار مرتبط است.</p>
+    </div>
+
+    <form action="/analysis" method="get" style="display:flex;gap:10px;max-width:560px;margin-bottom:14px;">
+      <input type="text" name="symbol" value="{{ symbol or '' }}" placeholder="مثلاً BTC-USD ، AAPL ، GC=F"
+             style="flex:1;background:var(--ink-800);border:1px solid var(--line);color:var(--paper);padding:14px 16px;border-radius:10px;font-family:var(--font-mono);direction:ltr;text-align:left;">
+      <button class="btn btn-brass" type="submit">تحلیل کن</button>
+    </form>
+    <div class="chip-row" style="margin-bottom:36px;">
+      {% for a in default_assets %}
+      <a href="/analysis?symbol={{ a.symbol }}" class="chip">{{ a.display_name_fa }} · {{ a.symbol }}</a>
+      {% endfor %}
+    </div>
+
+    {% if error %}
+      <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+      {% if result.is_demo %}
+      <div class="alert alert-warn">
+        داده زنده برای این نماد در دسترس نبود؛ نمایش فعلی بر پایه داده نمایشی (Demo) است تا رابط کاربری را ببینید.
+        برای اتصال منبع داده واقعی، سرویس <span class="mono">market_data.py</span> را پیکربندی کنید.
+      </div>
+      {% endif %}
+
+      <div class="prob-spectrum" style="margin-bottom:26px;">
+        <div class="score-row">
+          <div>
+            <div style="color:var(--muted);font-size:.85rem;">امتیاز سرمایه‌یار — {{ result.symbol }}</div>
+            <div class="score-num">{{ result.final_score }}</div>
+          </div>
+          <div style="text-align:left;">
+            <span class="badge badge-pro">{{ result.verdict_label }}</span><br>
+            <span class="mono {{ 'up' if result.daily_change >= 0 else 'down' }}" style="font-size:1.1rem;">
+              {{ result.last_price }} ({{ '+' if result.daily_change >= 0 else '' }}{{ result.daily_change }}%)
+            </span>
+          </div>
+        </div>
+        <div class="spectrum-bar">
+          <div class="seg-bear" style="width:{{ result.scenario_bearish }}%"></div>
+          <div class="seg-neutral" style="width:{{ result.scenario_neutral }}%"></div>
+          <div class="seg-bull" style="width:{{ result.scenario_bullish }}%"></div>
+        </div>
+        <div class="spectrum-legend">
+          <span class="lg"><span class="dot" style="background:var(--rose-warn)"></span> نزولی {{ result.scenario_bearish }}٪</span>
+          <span class="lg"><span class="dot" style="background:var(--muted)"></span> خنثی {{ result.scenario_neutral }}٪</span>
+          <span class="lg"><span class="dot" style="background:var(--teal-glow)"></span> صعودی {{ result.scenario_bullish }}٪</span>
+        </div>
+      </div>
+
+      <div class="metric-grid">
+        <div class="metric-card"><div class="label">امتیاز تکنیکال</div><div class="value">{{ result.technical_score }}</div></div>
+        <div class="metric-card"><div class="label">امتیاز اخبار</div><div class="value">{{ result.sentiment_score }}</div></div>
+        <div class="metric-card"><div class="label">امتیاز ریسک</div><div class="value">{{ result.risk_score }} <span style="font-size:.7rem;color:var(--muted)">/ {{ result.risk_label }}</span></div></div>
+        <div class="metric-card"><div class="label">نوسان سالانه</div><div class="value">{{ result.indicators.volatility | round(1) }}٪</div></div>
+      </div>
+
+      <div class="admin-panel">
+        <h4 style="margin-bottom:16px;">شاخص‌های تکنیکال</h4>
+        <table class="mono">
+          <tr><th>SMA20</th><td>{{ result.indicators.sma20 | round(2) }}</td>
+              <th>SMA50</th><td>{{ result.indicators.sma50 | round(2) }}</td></tr>
+          <tr><th>RSI(14)</th><td>{{ result.indicators.rsi | round(1) }}</td>
+              <th>MACD</th><td>{{ result.indicators.macd | round(3) }}</td></tr>
+          <tr><th>باند بولینگر بالا</th><td>{{ result.indicators.bb_upper | round(2) }}</td>
+              <th>باند بولینگر پایین</th><td>{{ result.indicators.bb_lower | round(2) }}</td></tr>
+          <tr><th>حداکثر افت از قله</th><td>{{ result.indicators.max_drawdown | round(1) }}٪</td>
+              <th>آخرین قیمت</th><td>{{ result.last_price }}</td></tr>
+        </table>
+      </div>
+
+      {% if result.news %}
+      <div class="admin-panel">
+        <h4 style="margin-bottom:16px;">اخبار مرتبط</h4>
+        {% for n in result.news %}
+        <div style="padding:10px 0;border-bottom:1px dashed var(--line);display:flex;justify-content:space-between;gap:10px;">
+          <a href="{{ n.link }}" target="_blank" rel="noopener nofollow" style="font-size:.9rem;">{{ n.title }}</a>
+          <span class="badge {{ 'badge-on' if n.sentiment > 0 else ('badge-off' if n.sentiment < 0 else 'badge-free') }}">
+            {{ 'مثبت' if n.sentiment > 0 else ('منفی' if n.sentiment < 0 else 'خنثی') }}
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="alert alert-warn">{{ result.disclaimer }}</div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

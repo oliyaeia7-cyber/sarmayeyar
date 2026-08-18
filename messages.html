@@ -1,0 +1,26 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="admin-panel">
+  <table>
+    <tr><th>نام</th><th>ایمیل</th><th>پیام</th><th>تاریخ</th><th>وضعیت</th><th>عملیات</th></tr>
+    {% for m in messages %}
+    <tr>
+      <td>{{ m.name }}</td>
+      <td class="mono">{{ m.email }}</td>
+      <td style="max-width:320px;">{{ m.message }}</td>
+      <td class="mono">{{ m.created_at.strftime('%Y/%m/%d') }}</td>
+      <td><span class="badge {{ 'badge-on' if m.is_read else 'badge-off' }}">{{ 'خوانده‌شده' if m.is_read else 'جدید' }}</span></td>
+      <td>
+        {% if not m.is_read %}
+        <form class="inline-form" method="post" action="/admin/messages/{{ m.id }}/read">
+          <button class="btn btn-ghost btn-sm" type="submit">علامت‌گذاری به‌عنوان خوانده‌شده</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">پیامی دریافت نشده است.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

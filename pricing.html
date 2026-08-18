@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="section-head" style="margin:0 auto 46px;text-align:center;max-width:560px;">
+      <span class="eyebrow" style="margin:0 auto;">قیمت‌گذاری</span>
+      <h2>یک پلن ساده، بدون تعهد پنهان</h2>
+      <p>شروع رایگان کنید؛ هر زمان خواستید ارتقا دهید.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>رایگان</h3>
+        <p style="font-size:.85rem;">برای آشنایی با سرمایه‌یار</p>
+        <div class="amount">۰ تومان</div>
+        <ul>
+          <li>{{ settings.FREE_DAILY_ANALYSIS_LIMIT }} تحلیل در روز</li>
+          <li>شاخص‌های تکنیکال پایه</li>
+          <li>امتیاز و سناریوی احتمالاتی</li>
+          <li>اخبار مرتبط با دارایی</li>
+        </ul>
+        <a href="/register" class="btn btn-ghost btn-block">شروع رایگان</a>
+      </div>
+      <div class="price-card featured">
+        <span class="tag">پیشنهادی</span>
+        <h3>حرفه‌ای</h3>
+        <p style="font-size:.85rem;">برای سرمایه‌گذاران فعال</p>
+        <div class="amount">{{ '{:,}'.format(settings.PRO_PRICE_TOMAN) }} تومان / ماه</div>
+        <ul>
+          <li>تحلیل نامحدود</li>
+          <li>تمام شاخص‌های تکنیکال پیشرفته</li>
+          <li>دسترسی به API برای توسعه‌دهندگان</li>
+          <li>هشدار تغییر امتیاز دارایی‌های موردعلاقه</li>
+          <li>پشتیبانی اولویت‌دار</li>
+        </ul>
+        <a href="/register" class="btn btn-brass btn-block">شروع اشتراک حرفه‌ای</a>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin:70px auto 30px;text-align:center;max-width:560px;">
+      <h2 style="font-size:1.5rem;">سوالات متداول</h2>
+    </div>
+    <div style="max-width:700px;margin:0 auto;">
+      <div class="admin-panel"><h4>آیا سرمایه‌یار سیگنال خرید و فروش قطعی می‌دهد؟</h4>
+      <p>خیر. سرمایه‌یار به‌جای فرمان قطعی، یک امتیاز و سه سناریوی احتمالاتی ارائه می‌دهد تا تصمیم نهایی با خود شما باشد.</p></div>
+      <div class="admin-panel"><h4>آیا می‌توانم اشتراک را لغو کنم؟</h4>
+      <p>بله، اشتراک حرفه‌ای هر زمان که بخواهید بدون جریمه قابل لغو است.</p></div>
+      <div class="admin-panel"><h4>چطور به API دسترسی پیدا کنم؟</h4>
+      <p>با فعال‌سازی اشتراک حرفه‌ای، کلید API از پنل کاربری شما در دسترس قرار می‌گیرد.</p></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

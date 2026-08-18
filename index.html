@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">وبلاگ آموزشی</span>
+      <h2>یادگیری تحلیل بازار، قدم‌به‌قدم</h2>
+    </div>
+    <div class="blog-grid">
+      {% for p in posts %}
+      <a href="/blog/{{ p.slug }}" class="blog-card">
+        <div class="date">{{ p.created_at.strftime('%Y/%m/%d') }}</div>
+        <h4>{{ p.title }}</h4>
+        <p style="font-size:.88rem;">{{ p.excerpt }}</p>
+      </a>
+      {% else %}
+      <p>هنوز مقاله‌ای منتشر نشده است.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

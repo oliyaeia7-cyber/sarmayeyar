@@ -1,0 +1,29 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="admin-panel">
+  <form method="post" action="/admin/settings">
+    <div class="form-group">
+      <label>شناسه Google Analytics</label>
+      <input type="text" name="ga_id" value="{{ site_settings.get('ga_id','') }}" placeholder="G-XXXXXXX">
+    </div>
+    <div class="form-group">
+      <label>کد تایید Google Search Console</label>
+      <input type="text" name="site_verification" value="{{ site_settings.get('site_verification','') }}">
+    </div>
+    <div class="form-group">
+      <label>پیام اطلاعیه سایت (اختیاری)</label>
+      <textarea name="announcement">{{ site_settings.get('announcement','') }}</textarea>
+    </div>
+    <button class="btn btn-brass" type="submit">ذخیره تنظیمات</button>
+  </form>
+</div>
+<div class="admin-panel">
+  <h4 style="margin-bottom:10px;">راهنمای سئوی ۹۹٪</h4>
+  <p style="font-size:.88rem;">
+    عنوان، توضیحات متا، نقشه سایت (sitemap.xml)، robots.txt، داده ساخت‌یافته Schema.org،
+    برچسب‌های Open Graph و لینک canonical به‌صورت خودکار برای همه صفحات تولید می‌شوند.
+    ۱٪ باقی‌مانده شامل موارد زیر است که باید توسط شما انجام شود:
+    ثبت دامنه نهایی در Google Search Console، تولید محتوای بیشتر برای وبلاگ، و دریافت بک‌لینک.
+  </p>
+</div>
+{% endblock %}

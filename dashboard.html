@@ -1,0 +1,24 @@
+{% extends "admin/base_admin.html" %}
+{% block admin_content %}
+<div class="stat-grid">
+  <div class="stat-card"><div class="label">کل کاربران</div><div class="value">{{ stats.total_users }}</div></div>
+  <div class="stat-card"><div class="label">مشترکین حرفه‌ای</div><div class="value">{{ stats.pro_users }}</div></div>
+  <div class="stat-card"><div class="label">کل تحلیل‌ها</div><div class="value">{{ stats.total_analyses }}</div></div>
+  <div class="stat-card"><div class="label">تحلیل ۷ روز اخیر</div><div class="value">{{ stats.analyses_7d }}</div></div>
+</div>
+<div class="stat-grid">
+  <div class="stat-card"><div class="label">پیام‌های خوانده‌نشده</div><div class="value">{{ stats.unread_messages }}</div></div>
+  <div class="stat-card"><div class="label">مقالات وبلاگ</div><div class="value">{{ stats.blog_posts }}</div></div>
+</div>
+<div class="admin-panel">
+  <h4 style="margin-bottom:14px;">پرتحلیل‌ترین نمادها</h4>
+  <table>
+    <tr><th>نماد</th><th>تعداد تحلیل</th></tr>
+    {% for symbol, count in top_symbols %}
+    <tr><td class="mono">{{ symbol }}</td><td>{{ count }}</td></tr>
+    {% else %}
+    <tr><td colspan="2">هنوز داده‌ای ثبت نشده است.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+# فایل استقرار خودکار در Render — از طریق Blueprint (render.com/docs/blueprint-spec)
+services:
+  - type: web
+    name: sarmayeyar
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SITE_URL
+        value: https://sarmayeyar.onrender.com
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////app/data/sarmayeyar.db
+      - key: ADMIN_EMAIL
+        value: admin@sarmayeyar.local
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: GOOGLE_ANALYTICS_ID
+        sync: false
+      - key: GOOGLE_SITE_VERIFICATION
+        sync: false
+      - key: ZARINPAL_MERCHANT_ID
+        sync: false
+    disk:
+      name: sarmayeyar-data
+      mountPath: /app/data
+      sizeGB: 1

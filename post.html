@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    {% if post %}
+    <article class="post-body">
+      <span class="eyebrow">وبلاگ</span>
+      <h1 style="margin-top:16px;">{{ post.title }}</h1>
+      <p style="color:var(--muted);font-size:.85rem;" class="mono">{{ post.created_at.strftime('%Y/%m/%d') }}</p>
+      <div style="margin-top:24px;white-space:pre-wrap;line-height:2;">{{ post.content }}</div>
+    </article>
+    {% else %}
+    <p>مقاله موردنظر یافت نشد.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ meta.title }}</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<section class="section" style="padding-top:110px;">
+  <div class="container">
+    <div class="form-card">
+      <div class="brand" style="justify-content:center;margin-bottom:22px;"><span class="mark"></span> پنل مدیریت سرمایه‌یار</div>
+      {% if error %}<div class="alert alert-error">{{ error }}</div>{% endif %}
+      <form method="post" action="/admin/login">
+        <div class="form-group"><label>ایمیل ادمین</label><input type="email" name="email" required></div>
+        <div class="form-group"><label>رمز عبور</label><input type="password" name="password" required></div>
+        <button class="btn btn-brass btn-block" type="submit">ورود به پنل</button>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>

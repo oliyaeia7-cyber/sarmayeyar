@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ meta.title }}</title>
+<meta name="description" content="{{ meta.description }}">
+<meta name="keywords" content="{{ meta.keywords }}">
+<meta name="author" content="{{ settings.SITE_NAME }}">
+<link rel="canonical" href="{{ settings.SITE_URL }}{{ request.url.path }}">
+{% if settings.GOOGLE_SITE_VERIFICATION %}
+<meta name="google-site-verification" content="{{ settings.GOOGLE_SITE_VERIFICATION }}">
+{% endif %}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ meta.title }}">
+<meta property="og:description" content="{{ meta.description }}">
+<meta property="og:url" content="{{ settings.SITE_URL }}{{ request.url.path }}">
+<meta property="og:site_name" content="{{ settings.SITE_NAME }}">
+<meta property="og:locale" content="fa_IR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ meta.title }}">
+<meta name="twitter:description" content="{{ meta.description }}">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230B1414%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 text-anchor=%22middle%22 fill=%22%23C9A24B%22>٪</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ settings.SITE_NAME }}",
+  "url": "{{ settings.SITE_URL }}",
+  "description": "{{ settings.SITE_DESCRIPTION }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ settings.SITE_NAME }}",
+  "url": "{{ settings.SITE_URL }}",
+  "inLanguage": "fa-IR",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ settings.SITE_URL }}/analysis?symbol={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% if settings.GOOGLE_ANALYTICS_ID %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.GOOGLE_ANALYTICS_ID }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ settings.GOOGLE_ANALYTICS_ID }}');
+</script>
+{% endif %}
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container inner">
+    <a href="/" class="brand"><span class="mark"></span> {{ settings.SITE_NAME }}</a>
+    <nav class="main-nav">
+      <a href="/">خانه</a>
+      <a href="/analysis">تحلیل دارایی</a>
+      <a href="/pricing">قیمت‌گذاری</a>
+      <a href="/blog">وبلاگ</a>
+      <a href="/about">درباره ما</a>
+      <a href="/contact">تماس با ما</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="باز کردن منو">☰</button>
+    <div class="header-actions">
+      {% if user %}
+        <span class="badge {{ 'badge-pro' if user.plan=='pro' else 'badge-free' }}">{{ 'حرفه‌ای' if user.plan=='pro' else 'رایگان' }}</span>
+        <a href="/logout" class="btn btn-ghost btn-sm">خروج</a>
+      {% else %}
+        <a href="/login" class="btn btn-ghost btn-sm">ورود</a>
+        <a href="/register" class="btn btn-brass btn-sm">ثبت‌نام رایگان</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobileNav">
+  <a href="/">خانه</a>
+  <a href="/analysis">تحلیل دارایی</a>
+  <a href="/pricing">قیمت‌گذاری</a>
+  <a href="/blog">وبلاگ</a>
+  <a href="/about">درباره ما</a>
+  <a href="/contact">تماس با ما</a>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="brand" style="margin-bottom:14px;"><span class="mark"></span> {{ settings.SITE_NAME }}</a>
+        <p style="font-size:.88rem;max-width:34ch;">{{ settings.SITE_DESCRIPTION }}</p>
+      </div>
+      <div>
+        <h5>محصول</h5>
+        <a href="/analysis">تحلیل دارایی</a>
+        <a href="/pricing">اشتراک حرفه‌ای</a>
+        <a href="/api/v1/assets">API توسعه‌دهندگان</a>
+      </div>
+      <div>
+        <h5>شرکت</h5>
+        <a href="/about">درباره ما</a>
+        <a href="/blog">وبلاگ آموزشی</a>
+        <a href="/contact">تماس با ما</a>
+      </div>
+      <div>
+        <h5>بازارها</h5>
+        <a href="/analysis?symbol=BTC-USD">تحلیل بیت‌کوین</a>
+        <a href="/analysis?symbol=ETH-USD">تحلیل اتریوم</a>
+        <a href="/analysis?symbol=GC=F">تحلیل طلا</a>
+        <a href="/analysis?symbol=EURUSD=X">تحلیل یورو به دلار</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {{ 1403 }} {{ settings.SITE_NAME }} — تمامی خروجی‌ها جنبه آموزشی و تحلیلی دارند و توصیه مالی قطعی نیستند.</span>
+      <span>ساخته‌شده با FastAPI · Python</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
